@@ -103,7 +103,7 @@ ax1.set_xticks(range(0,23));
 ax1.set_yticks(range(0,23));
 plt.grid()
 plt.scatter(xs, ys)
-plt.show();
+# plt.show();
 
 # Doubling just means adding same point while additon is general addition between points 
 
@@ -164,4 +164,114 @@ ax1.grid()
 
 for i in range(0, 11):
     plt.annotate(str(i+1), (points[i][0] + 0.1, points[i][1]), color="red");
-plt.show()
+# plt.show()
+
+# Python bn128 library
+
+from py_ecc.bn128 import G1, multiply, add, eq, neg
+
+print("THE TESTING BEGINS")
+
+print(G1)
+print(add(G1,G1))
+print(multiply(G1,2))
+
+# # 5G + 6G = 11G
+assert eq(add(multiply(G1, 5), multiply(G1, 6)), multiply(G1, 11))
+
+# numbers are large to make it difficult for attackers to brute force it 
+
+import matplotlib.pyplot as plt
+from py_ecc.bn128 import G1, multiply, neg
+
+import numpy as np
+xs = []
+ys = []
+for i in range(1,1000):
+    xs.append(i)
+    ys.append(int(multiply(G1, i)[1]))
+    xs.append(i)
+    ys.append(int(neg(multiply(G1, i))[1]))
+plt.scatter(xs, ys, marker='.')
+# plt.show()
+
+# confirming if adding curve order to some point you get the point back and if it is the field modulus , it would give you a different point 
+from py_ecc.bn128 import field_modulus
+
+
+a= 7
+print(eq(multiply(G1,a),multiply(G1,a+ curve_order)))
+print(eq(multiply(G1, a), multiply(G1, a + field_modulus)))
+
+# Encoding rational numbers 
+five_over_two = (5 * pow(2, -1, curve_order)) % curve_order
+one_half = pow(2, -1, curve_order)
+
+# Essentially 5/2 = 2.5# 2.5 + 0.5 = 3
+# but we are doing this in a finite field
+assert eq(add(multiply(G1, five_over_two), multiply(G1, one_half)), multiply(G1, 3))
+
+
+x = 6
+y = 11
+z = 17
+
+# (x+y)+z = x+(y+z)
+lhs = add(add(multiply(G1, x), multiply(G1, y)), multiply(G1, z))
+
+rhs = add(multiply(G1, x), add(multiply(G1, y), multiply(G1, z)))
+
+print(eq(lhs, rhs)) 
+
+
+from py_ecc.bn128 import  neg, is_inf, Z1
+
+# pick a field element
+x = 4444444
+# generate the point
+p = multiply(G1, x)
+
+# invert
+p_inv = neg(p)
+print("The inverse is :", p_inv)
+
+# every element added to its inverse produces the identity element 
+assert is_inf(add(p, p_inv))
+
+# Z1 is just None, which is the point at infinity
+assert Z1 is None
+
+# special case: the inverse of the identity is itself
+assert eq(neg(Z1), Z1)
+
+print("testing the fact that elliptic curve points over real number , (x,y) the inverse is usually (x,INV(y) so INV(y)")
+
+field_modulus = 21888242871839275222246405745257275088696311157297823662689037894645226208583
+for i in range(1, 4):
+    point = multiply(G1, i)
+    print(point)
+    print(neg(point))
+    print('----')
+    
+    # x values are the same
+    assert int(point[0]) == int(neg(point)[0])
+    
+    # y values are inverses of each other, we are adding y values
+    # not ec points
+    assert int(point[1]) + int(neg(point)[1]) == field_modulus
+
+
+# Prover
+secret_x = 5
+secret_y = 10
+
+x = multiply(G1, 5)
+y = multiply(G1, 10)
+
+proof = (x, y, 15)
+
+# verifier
+if multiply(G1, proof[2]) == add(proof[0], proof[1]):
+    print("statement is true")
+else:
+    print("statement is false")
