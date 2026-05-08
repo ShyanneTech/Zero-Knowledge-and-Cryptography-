@@ -1,7 +1,7 @@
 # import galois
 from libnum import has_sqrtmod_prime_power, sqrtmod_prime_power
 p =11
-print(pow(3,-1,p))
+print(pow(3,-1,p)) 
 
 # assert (3*2) % p == 1
 

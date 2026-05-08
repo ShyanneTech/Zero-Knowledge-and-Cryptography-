@@ -7,7 +7,7 @@
 # lambda_q = (y_t - y_u)/(x_t - x_u)
 # x_q = lambda_q^2 - x_u - x_t
 # y_q = (lambda_q*(x_u - x_q) - y_u)
-
+ 
 # y2=x3−x+1
 def elliptic_circle_commutativity(x_t,y_t,x_u,y_u):
     # P = T + U ,  Q = U+T
