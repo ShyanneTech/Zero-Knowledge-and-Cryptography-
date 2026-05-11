@@ -1,1 +1,10 @@
-.venv/ 
+zkenv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.DS_Store
+
+# JS / circom artifacts if you don't want them
+node_modules/
