@@ -18,6 +18,7 @@ ys = GF17(np.array([4,8,2,1]))
 
 p = galois.lagrange_poly(xs, ys)
 
+
 assert p(1) == GF17(4)
 assert p(2) == GF17(8)
 assert p(3) == GF17(2)

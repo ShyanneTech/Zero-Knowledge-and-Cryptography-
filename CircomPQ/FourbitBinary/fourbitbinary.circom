@@ -19,6 +19,8 @@ template FourBitBinary() {
     signal input in[4];
     signal input n;
 
+    assert(n < 16 )
+
     for ( var i = 0; i< 4;i++){
         0 === in[i] * (in[i] - 1);
 
