@@ -17,22 +17,30 @@ template isMax(n) {
     out <-- maxx;
 
     // Condition 1
-    signal gte[n];
+    component  gte[n]; // when you wan
 
     for (var i = 0; i < n; i++) {
-        gte[i] <== GreaterEqThan(252)([out, in[i]]);
-        gte[i] === 1;
+        // gte[i] <== GreaterEqThan(252)([out, in[i]]);
+        // gte[i] === 1; in here i can see i didn't constrain the output and that is bad
+        gte[i] <== GreaterEqThan(252);
+        gte[i].in[0]<== out;
+        gte[i].in[1]<== in[i];
+        gte[i].out === 1;
+
+
     }
 
 
     // condition 2 
 
-    signal eq[n];
+    component  eq[n];
     var sum = 0;
 
     for (var i = 0; i < n; i++) {
-        eq[i] <== IsEqual()([out, in[i]]);
-        sum += eq[i];
+        eq[i] <== IsEqual()
+        eq[i].in[0]<== out;
+        eq[i].in[1]<== in[i];
+        sum += eq[i].out;
     }
     signal iz;
     iz <== IsZero()(sum);
