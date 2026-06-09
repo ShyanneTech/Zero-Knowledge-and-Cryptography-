@@ -16,9 +16,9 @@ template Branching(cond1,cond2,cond3,br1,br2,br3,br4) {
     switch3 <== IsEqual()([x,cond3]);
     otherwise <== IsZero()( cond1 + cond2 + cond3 );
 
-    cond1 + cond2 + cond3 + otherwise === 1;
+    switch1 + switch2 + switch3 + otherwise === 1;  // seems there is no need for this again
     
-    out <==  cond1 * br1 + cond2 * br2 + cond3 * br3 + otherwise * br4 ;
+    out <==   switch1 * br1 + switch2 * br2 + switch3 * br3 + otherwise * br4; 
     
 }
 
