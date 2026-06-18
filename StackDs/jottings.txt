@@ -1,0 +1,28 @@
+ i feel there is no need for this spBranch[i][INC] <== metaTable[i][IS_PUSH] * (sp[i] + 1);
+
+    spBranch[i][SAME] <== metaTable[i][IS_NOP] * (sp[i]);
+
+    spBranch[i][DEC] <== metaTable[i][IS_POP] * (sp[i] - 1);
+
+    sp[i + 1] <== spBranch[i][INC] + spBranch[i][SAME] + spBranch[i][DEC];
+
+
+
+var SAME = 0; // the numbering here is to identify the columns yourself 
+
+  var INC = 1;
+
+  var DEC = 2;
+
+  signal spBranch[n][3];
+
+  spBranch[0][INC] <== first_op_is_push * 1;
+
+  spBranch[0][SAME] <== (1 - first_op_is_push) * 0;
+
+  spBranch[0][DEC] <== 0;
+
+
+
+
+
