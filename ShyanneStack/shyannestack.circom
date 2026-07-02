@@ -142,6 +142,7 @@ template MyStackBuilder (n) {
     metatable[0][is_PUSH] <== firstispush;
     metatable[0][is_NOP] <== 1 - firstispush;
     metatable[0][is_POP] <== 0;
+    metatable[0][is_ARG] <== instr[1];
 
     spbranch[0][SAME] <== 0 ;
     spbranch[0][INC] <== firstispush;

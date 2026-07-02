@@ -149,6 +149,7 @@ template MyZKVM(n) {
     metatable[0][is_NOP] <== 1 - firstispush;
     metatable[0][is_ADD] <== 0;
     metatable[0][is_MUL] <== 0;
+    metatable[0][ARG] <== instr[1];
 
     spbranch[0][SAME] <== 0 ;
     spbranch[0][INC] <== firstispush;
@@ -270,4 +271,4 @@ template MyZKVM(n) {
     }   
 }
 
-component main = MyZKVM(3);
+component main = MyZKVM(5);
